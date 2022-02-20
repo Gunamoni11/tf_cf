@@ -1,5 +1,7 @@
-provider "aws"{
-  region = "us-east-2"
+resource "aws_cloudformation_stack" "example" {
+  name = "example"
+  parameters = {
+    VpcId = var.vpc_id
+  }
+  template_body = file("${path.master}/example.yml")
 }
-module "cf" {
-  source = "https://github.com/Gunamoni11/tf_cf.git?ref=master"
