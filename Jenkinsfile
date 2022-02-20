@@ -1,5 +1,5 @@
 pipeline{
-  agent {label 'slave'}
+  agent label any
   stages{
     stage('Cleaning WS'){
       steps{
@@ -8,7 +8,7 @@ pipeline{
     }
     stage('repo pulling'){
       steps{
-        git branch: 'main', url: ''
+        git branch: 'main', url: 'https://github.com/Gunamoni11/tf_cf.git'
         sh "ls"
       }
     }
