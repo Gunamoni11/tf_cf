@@ -1,3 +1,6 @@
+provider "aws"{
+  region = "us-east-2"
+}
 resource "aws_cloudformation_stack" "example" {
   name = "example"
   parameters = {
