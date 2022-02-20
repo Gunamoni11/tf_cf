@@ -1,9 +1,30 @@
-resource "aws_cloudformation_stack" "my-new-stack" {
-  name = "my-new-stack"
-  parameters {
-    Name="my-new-stack"
-    Port="22"
-    VpcId = "${vpc-6014600b}"
+resource "aws_cloudformation_stack" "network" {
+  name = "networking-stack"
+
+  parameters = {
+    VPCCidr = "172.31.0.0/16"
   }
-  template_body = "${file("${path.module}/cf.tf")}"
+
+  template_body = <<STACK
+{
+  "Parameters" : {
+    "VPCCidr" : {
+      "Type" : "String",
+      "Default" : "172.31.0.0/16",
+      "Description" : "Enter the CIDR block for the VPC. Default is 172.31.0.0/16."
+    }
+  },
+  "Resources" : {
+    "myVpc": {
+      "Type" : "AWS::EC2::VPC",
+      "Properties" : {
+        "CidrBlock" : { "Ref" : "VPCCidr" },
+        "Tags" : [
+          {"Key": "Name", "Value": "Primary_CF_VPC"}
+        ]
+      }
+    }
+  }
+}
+STACK
 }
